@@ -1,0 +1,27 @@
+name: Vigía Saylor (BTC en vivo)
+
+on:
+  schedule:
+    - cron: "7 * * * *"   # cada hora; si ya hay uno corriendo, este espera y arranca apenas termina
+  workflow_dispatch:
+
+concurrency:
+  group: vigia-saylor
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  vigia:
+    runs-on: ubuntu-latest
+    timeout-minutes: 355
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Mirar BTC
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: node saylor/vigia-saylor.mjs
