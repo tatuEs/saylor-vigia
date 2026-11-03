@@ -41,11 +41,31 @@ function sh(cmd) {
   try { return execSync(cmd, { stdio: "pipe" }).toString(); } catch (e) { console.error(cmd, e.message); return ""; }
 }
 
-// Trae los niveles nuevos que haya subido Claude.
-function actualizarNiveles() {
+// Trae los niveles nuevos que haya mandado Claude: por ntfy (tema NIVELES_TOPIC)
+// o, si no hay, por el archivo del repo. Gana el más nuevo según "actualizado".
+const NIVELES_TOPIC = process.env.NIVELES_TOPIC || "";
+const masNuevo = (a, b) => (Date.parse(a?.actualizado || 0) || 0) > (Date.parse(b?.actualizado || 0) || 0);
+async function actualizarNiveles() {
   sh("git pull --rebase --autostash -q");
-  niveles = leer(NIVELES, niveles);
+  const delRepo = leer(NIVELES, null);
+  if (delRepo && masNuevo(delRepo, niveles)) niveles = delRepo;
   ejecuciones = leer(EJEC, ejecuciones);
+  if (!NIVELES_TOPIC) return;
+  try {
+    const r = await fetch(`https://ntfy.sh/${NIVELES_TOPIC}/json?poll=1&since=12h`);
+    const msgs = (await r.text()).split("\n").filter(Boolean).map((l) => JSON.parse(l))
+      .filter((m) => m.event === "message");
+    for (const m of msgs) {
+      try {
+        const n = JSON.parse(m.message);
+        if (Array.isArray(n.ordenes) && masNuevo(n, niveles)) {
+          niveles = n;
+          writeFileSync(NIVELES, JSON.stringify(niveles, null, 2) + "\n");
+          console.log("Niveles nuevos de Claude:", n.actualizado);
+        }
+      } catch {}
+    }
+  } catch (e) { console.error("ntfy niveles:", e.message); }
 }
 
 async function avisar(titulo, texto) {
@@ -111,6 +131,7 @@ async function revisar(precio, ms) {
     texto = `${ej.hora_art} ART. El PnL tocó el nivel de recarga ${o.tipo}. Claude aplica la recarga en la próxima revisión.`;
   }
   ejecuciones.push(ej);
+  niveles.actualizado = new Date().toISOString(); // así no lo pisan niveles viejos de antes de esta ejecución
   guardar(`vigia: ${o.tipo} a ${fill}`);
   await avisar(titulo, texto);
   ocupado = false;
@@ -155,7 +176,7 @@ function escuchar() {
 
 // Cada 2 minutos baja los niveles nuevos de Claude.
 setInterval(actualizarNiveles, 120_000);
-actualizarNiveles();
+await actualizarNiveles();
 await ponerseAlDia();
 while (Date.now() - inicio < DURACION_MS) {
   await escuchar();
