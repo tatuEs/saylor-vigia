@@ -24,4 +24,5 @@ jobs:
       - name: Mirar BTC
         env:
           NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+          NIVELES_TOPIC: ${{ secrets.NIVELES_TOPIC }}
         run: node saylor/vigia-saylor.mjs
