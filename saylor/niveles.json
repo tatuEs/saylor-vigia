@@ -1,0 +1,27 @@
+{
+  "actualizado": "2026-11-03T13:37:00Z",
+  "nota": "Lo escribe Claude en cada revisión horaria. Precios de la posición abierta al 03/11 10:36 ART. Tiro de hoy ya hecho.",
+  "posicion_costo": 3166.91,
+  "btc": 0.0402952,
+  "bala_posicion_usd": 83.34,
+  "ordenes": [
+    {
+      "id": "cierre",
+      "tipo": "cierre",
+      "lado": "arriba",
+      "precio": 81736
+    },
+    {
+      "id": "critica",
+      "tipo": "critica",
+      "lado": "abajo",
+      "precio": 72305
+    },
+    {
+      "id": "terminal",
+      "tipo": "terminal",
+      "lado": "abajo",
+      "precio": 69162
+    }
+  ]
+}
