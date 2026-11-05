@@ -1,27 +1,35 @@
 {
-  "actualizado": "2026-11-03T13:37:00Z",
-  "nota": "Lo escribe Claude en cada revisión horaria. Precios de la posición abierta al 03/11 10:36 ART. Tiro de hoy ya hecho.",
-  "posicion_costo": 3166.91,
-  "btc": 0.0402952,
-  "bala_posicion_usd": 83.34,
+  "actualizado": "2026-11-05T12:10:23.300Z",
+  "nota": "05/11 sin tiro aun; tiro del dia en 80.050 (EMA 20 1h / 80K), PnL ahi +10,7% -> 1 bala",
+  "posicion_costo": 3583.57,
+  "btc": 0.04570077,
+  "bala_posicion_usd": 83.33,
   "ordenes": [
     {
-      "id": "cierre",
+      "id": "cierre-78376",
       "tipo": "cierre",
       "lado": "arriba",
-      "precio": 81736
+      "precio": 81550
     },
     {
-      "id": "critica",
+      "id": "critica-78376",
       "tipo": "critica",
       "lado": "abajo",
-      "precio": 72305
+      "precio": 72106
     },
     {
-      "id": "terminal",
+      "id": "terminal-78376",
       "tipo": "terminal",
       "lado": "abajo",
-      "precio": 69162
+      "precio": 68971
+    },
+    {
+      "id": "tiro-2026-11-05",
+      "tipo": "tiro",
+      "lado": "abajo",
+      "precio": 80050,
+      "balas": 1,
+      "vence": "2026-11-05T23:00:00Z"
     }
   ]
 }
