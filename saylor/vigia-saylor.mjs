@@ -44,7 +44,11 @@ function sh(cmd) {
 // Trae los niveles nuevos que haya mandado Claude: por ntfy (tema NIVELES_TOPIC)
 // o, si no hay, por el archivo del repo. Gana el más nuevo según "actualizado".
 const NIVELES_TOPIC = process.env.NIVELES_TOPIC || "";
-const masNuevo = (a, b) => (Date.parse(a?.actualizado || 0) || 0) > (Date.parse(b?.actualizado || 0) || 0);
+const ts = (n) => Math.max(Date.parse(n?.actualizado || 0) || 0, Date.parse(n?.vigia_ts || 0) || 0);
+const masNuevo = (a, b) => ts(a) > ts(b);
+// Los tiros solo salen con niveles frescos de Claude (si un envío falló, no tira con órdenes viejas).
+const FRESCURA_MS = Number(process.env.FRESCURA_MIN || 70) * 60_000;
+const fresco = (ms) => ms - (Date.parse(niveles.actualizado || 0) || 0) < FRESCURA_MS;
 async function actualizarNiveles() {
   sh("git pull --rebase --autostash -q");
   const delRepo = leer(NIVELES, null);
@@ -107,7 +111,8 @@ let ocupado = false;
 async function revisar(precio, ms) {
   if (ocupado) return;
   const vivas = (niveles.ordenes || []).filter(
-    (o) => !yaEjecutada(o.id) && (!o.vence || Date.parse(o.vence) > ms)
+    (o) => !yaEjecutada(o.id) && (!o.vence || Date.parse(o.vence) > ms) &&
+      (!["tiro", "inicio"].includes(o.tipo) || fresco(ms))
   );
   const tocada = vivas.find((o) => (o.lado === "abajo" ? precio <= o.precio : precio >= o.precio));
   if (!tocada) return;
@@ -131,7 +136,7 @@ async function revisar(precio, ms) {
     texto = `${ej.hora_art} ART. El PnL tocó el nivel de recarga ${o.tipo}. Claude aplica la recarga en la próxima revisión.`;
   }
   ejecuciones.push(ej);
-  niveles.actualizado = new Date().toISOString(); // así no lo pisan niveles viejos de antes de esta ejecución
+  niveles.vigia_ts = new Date().toISOString(); // así no lo pisan niveles viejos de antes de esta ejecución
   guardar(`vigia: ${o.tipo} a ${fill}`);
   await avisar(titulo, texto);
   ocupado = false;
