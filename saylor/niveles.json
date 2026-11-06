@@ -1,35 +1,36 @@
 {
-  "actualizado": "2026-11-05T12:10:23.300Z",
-  "nota": "05/11 sin tiro aun; tiro del dia en 80.050 (EMA 20 1h / 80K), PnL ahi +10,7% -> 1 bala",
-  "posicion_costo": 3583.57,
-  "btc": 0.04570077,
+  "actualizado": "2026-11-06T13:37:00Z",
+  "nota": "06/11 sin tiro principal todavía; orden de tiro en 75.250 (último mínimo 75,2K / zona 75K EMA 200), PnL ahí -18,9% -> 5 balas",
+  "posicion_costo": 4333.55,
+  "btc": 0.05561748,
   "bala_posicion_usd": 83.33,
   "ordenes": [
     {
-      "id": "cierre-78376",
+      "id": "cierre-78212",
       "tipo": "cierre",
       "lado": "arriba",
-      "precio": 81550
+      "precio": 81034
     },
     {
-      "id": "critica-78376",
+      "id": "critica-78212",
       "tipo": "critica",
       "lado": "abajo",
-      "precio": 72106
+      "precio": 71955
     },
     {
-      "id": "terminal-78376",
+      "id": "terminal-78212",
       "tipo": "terminal",
       "lado": "abajo",
-      "precio": 68971
+      "precio": 68827
     },
     {
-      "id": "tiro-2026-11-05",
+      "id": "tiro-2026-11-06",
       "tipo": "tiro",
       "lado": "abajo",
-      "precio": 80050,
-      "balas": 1,
-      "vence": "2026-11-05T23:00:00Z"
+      "precio": 75250,
+      "balas": 5,
+      "vence": "2026-11-06T23:00:00Z"
     }
-  ]
+  ],
+  "vigia_ts": "2026-11-06T14:34:29.911Z"
 }
