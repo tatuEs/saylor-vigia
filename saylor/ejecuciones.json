@@ -20,5 +20,15 @@
     "hora_art": "6/11/2026, 11:34:29",
     "procesada_por_claude": false,
     "promedio_nuevo": 77917
+  },
+  {
+    "id": "critica-78212",
+    "tipo": "critica",
+    "precio": 71955,
+    "precio_tick": 65406.57,
+    "balas": null,
+    "hora_utc": "2026-11-16T22:44:00.000Z",
+    "hora_art": "16/11/2026, 19:44:00",
+    "procesada_por_claude": false
   }
 ]
