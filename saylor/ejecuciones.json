@@ -30,5 +30,15 @@
     "hora_utc": "2026-11-16T22:44:00.000Z",
     "hora_art": "16/11/2026, 19:44:00",
     "procesada_por_claude": false
+  },
+  {
+    "id": "terminal-78212",
+    "tipo": "terminal",
+    "precio": 68827,
+    "precio_tick": 65473.31,
+    "balas": null,
+    "hora_utc": "2026-11-16T22:44:00.000Z",
+    "hora_art": "16/11/2026, 19:44:00",
+    "procesada_por_claude": false
   }
 ]
